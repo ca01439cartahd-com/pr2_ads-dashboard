@@ -149,7 +149,6 @@
 
 <script>
 // 🌟🌟🌟 ここにスプレッドシートのCSV URLをセットします 🌟🌟🌟
-// （いただいたURLをあらかじめ入力してあります！）
 const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQq56pgVj9jabfll9ZZsy4bV4Ouv1uXI4jPpULzGSZ3y60F99sYhgjch5MdDRXi2I35PhAsL5KlYnrm/pub?gid=0&single=true&output=csv";
 
 
@@ -293,7 +292,6 @@ function renderDashboard(rows) {
 }
 
 async function loadData() {
-  // 🌟🌟🌟 エラーチェックのルールを修正しました！ 🌟🌟🌟
   if (SHEET_CSV_URL === "ここにURLをペースト" || !SHEET_CSV_URL) {
     setStatus(false, '⚠️ エラー: コード内の SHEET_CSV_URL が設定されていません。');
     return;
@@ -301,7 +299,10 @@ async function loadData() {
 
   setStatus(false, '最新データを読み込み中...');
   try {
-    const cacheBuster = '?t=' + new Date().getTime();
+    // 🌟 URLに「?」が含まれているかどうかで、「&」か「?」を自動で使い分ける最強の処理を追加！
+    const separator = SHEET_CSV_URL.includes('?') ? '&' : '?';
+    const cacheBuster = separator + 't=' + new Date().getTime();
+    
     const res = await fetch(SHEET_CSV_URL + cacheBuster);
     
     if (!res.ok) throw new Error('スプレッドシートの取得に失敗しました');
