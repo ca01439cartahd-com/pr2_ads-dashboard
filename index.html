@@ -38,11 +38,8 @@
   h1 { font-size: 22px; font-weight: 700; letter-spacing: -0.5px; }
   .subtitle { font-size: 13px; color: var(--muted); font-family: var(--mono); margin-top: 2px; }
   .header-right { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
-  .sheet-input { background: var(--surface); border: 1px solid var(--border); color: var(--text); padding: 8px 14px; border-radius: 8px; font-family: var(--mono); font-size: 12px; width: 300px; outline: none; transition: border-color 0.2s; }
-  .sheet-input:focus { border-color: var(--accent); }
-  .btn { background: var(--accent); color: #fff; border: none; padding: 8px 18px; border-radius: 8px; font-family: var(--sans); font-size: 13px; font-weight: 600; cursor: pointer; transition: opacity 0.2s; white-space: nowrap; }
-  .btn:hover { opacity: 0.85; }
-  .btn-ghost { background: var(--surface2); border: 1px solid var(--border); color: var(--text); }
+  .btn { background: var(--surface2); color: var(--text); border: 1px solid var(--border); padding: 8px 18px; border-radius: 8px; font-family: var(--sans); font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s; white-space: nowrap; display: flex; align-items: center; gap: 8px; }
+  .btn:hover { border-color: var(--accent); color: var(--accent); }
   .status-bar { display: flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 12px; color: var(--muted); margin-bottom: 32px; }
   .status-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--muted); }
   .status-dot.live { background: var(--green); box-shadow: 0 0 6px var(--green); animation: pulse 2s infinite; }
@@ -93,19 +90,17 @@
       <div class="logo-icon">📊</div>
       <div>
         <h1>Meta Ads Dashboard</h1>
-        <div class="subtitle">前日パフォーマンスレポート</div>
+        <div class="subtitle">自動連携パフォーマンスレポート</div>
       </div>
     </div>
     <div class="header-right">
-      <input class="sheet-input" id="sheetUrl" placeholder="スプレッドシートのCSV URLを貼り付け" />
-      <button class="btn" onclick="loadData()">読み込む</button>
-      <button class="btn btn-ghost" onclick="loadDemo()">デモデータ</button>
+      <button class="btn" onclick="loadData()">🔄 最新データを取得</button>
     </div>
   </header>
 
   <div class="status-bar">
     <div class="status-dot" id="statusDot"></div>
-    <span id="statusText">スプレッドシートのURLを入力してデータを読み込んでください</span>
+    <span id="statusText">システムを起動しています...</span>
   </div>
 
   <div class="kpi-grid">
@@ -142,9 +137,9 @@
     </div>
     <div id="tableWrap">
       <div class="empty">
-        <div class="empty-icon">📋</div>
-        <div class="empty-title">データがありません</div>
-        <div class="empty-desc">スプレッドシートのCSV URLを入力するか、デモデータを試してください</div>
+        <div class="empty-icon">⏳</div>
+        <div class="empty-title">データを読み込んでいます</div>
+        <div class="empty-desc">少々お待ちください...</div>
       </div>
     </div>
   </div>
@@ -153,6 +148,10 @@
 </div>
 
 <script>
+// 🌟🌟🌟 ここにスプレッドシートのCSV URLを貼り付けてください 🌟🌟🌟
+const SHEET_CSV_URL = "ここにURLをペースト";
+
+
 let costChart = null, perfChart = null;
 
 function fmt(n, d=0) {
@@ -177,7 +176,6 @@ function parseCSV(text) {
     const cost = parseFloat(c[1]) || 0;
     const imp = parseFloat(c[2]) || 0;
     const click = parseFloat(c[3]) || 0;
-    // 今後別DBから連携される mCV(E列), CV(F列) の枠組みを準備
     const mcv = (c[4] !== undefined && c[4].trim() !== '') ? (parseFloat(c[4]) || 0) : null;
     const cv = (c[5] !== undefined && c[5].trim() !== '') ? (parseFloat(c[5]) || 0) : null;
     rows.push({ date, cost, imp, click, mcv, cv });
@@ -190,7 +188,6 @@ function renderDashboard(rows) {
 
   const r = rows[rows.length - 1];
   
-  // 各種KPIの計算式
   const ctr = r.imp > 0 ? (r.click / r.imp) * 100 : 0;
   const cpc = r.click > 0 ? r.cost / r.click : 0;
   const cpm = r.imp > 0 ? (r.cost / r.imp) * 1000 : 0;
@@ -266,16 +263,22 @@ function renderDashboard(rows) {
   });
   html += '</tbody></table>';
   document.getElementById('tableWrap').innerHTML = html;
-  setStatus(true, '最終更新: ' + new Date().toLocaleString('ja-JP') + ' — ' + rows.length + '件');
+  setStatus(true, '自動連携完了: ' + new Date().toLocaleString('ja-JP') + ' — ' + rows.length + '件表示中');
 }
 
 async function loadData() {
-  const url = document.getElementById('sheetUrl').value.trim();
-  if (!url) { alert('URLを入力してください'); return; }
-  setStatus(false, '読み込み中...');
+  if (SHEET_CSV_URL === "https://docs.google.com/spreadsheets/d/e/2PACX-1vQq56pgVj9jabfll9ZZsy4bV4Ouv1uXI4jPpULzGSZ3y60F99sYhgjch5MdDRXi2I35PhAsL5KlYnrm/pub?gid=0&single=true&output=csv" || !SHEET_CSV_URL) {
+    setStatus(false, '⚠️ エラー: コード内の SHEET_CSV_URL が設定されていません。');
+    return;
+  }
+
+  setStatus(false, '最新データを読み込み中...');
   try {
-    const res = await fetch(url);
-    if (!res.ok) throw new Error('取得失敗');
+    // 常に最新データを取得するためのキャッシュ回避パラメーター
+    const cacheBuster = '?t=' + new Date().getTime();
+    const res = await fetch(SHEET_CSV_URL + cacheBuster);
+    
+    if (!res.ok) throw new Error('スプレッドシートの取得に失敗しました');
     const rows = parseCSV(await res.text());
     if (!rows.length) throw new Error('データが見つかりません');
     renderDashboard(rows);
@@ -284,22 +287,9 @@ async function loadData() {
   }
 }
 
-function loadDemo() {
-  const today = new Date();
-  const rows = [];
-  for (let i = 13; i >= 0; i--) {
-    const d = new Date(today);
-    d.setDate(d.getDate() - i);
-    const date = d.toISOString().split('T')[0];
-    const cost = Math.round(80000 + Math.random() * 40000);
-    const imp = Math.round(200000 + Math.random() * 100000);
-    const click = Math.round(imp * (0.008 + Math.random() * 0.006));
-    // mCVとCVは現時点では意図的にnullに設定してグレーアウトを確認
-    rows.push({ date, cost, imp, click, mcv: null, cv: null });
-  }
-  document.getElementById('sheetUrl').value = '（デモデータ）';
-  renderDashboard(rows);
-}
+// 画面を開いた瞬間に自動でデータを読み込む
+window.addEventListener('DOMContentLoaded', loadData);
+
 </script>
 </body>
 </html>
