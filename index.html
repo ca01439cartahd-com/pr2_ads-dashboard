@@ -31,7 +31,7 @@
     background-size: 40px 40px;
     pointer-events: none; z-index: 0;
   }
-  .wrapper { position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; padding: 32px 24px; }
+  .wrapper { position: relative; z-index: 1; max-width: 1400px; margin: 0 auto; padding: 32px 24px; }
   header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 40px; flex-wrap: wrap; gap: 16px; }
   .logo { display: flex; align-items: center; gap: 12px; }
   .logo-icon { width: 40px; height: 40px; background: linear-gradient(135deg, var(--accent), var(--accent2)); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; }
@@ -47,16 +47,15 @@
   .status-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--muted); }
   .status-dot.live { background: var(--green); box-shadow: 0 0 6px var(--green); animation: pulse 2s infinite; }
   @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.5} }
-  .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 32px; }
-  .kpi-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 20px; position: relative; overflow: hidden; transition: border-color 0.2s, transform 0.2s; }
+  .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px; margin-bottom: 32px; }
+  .kpi-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 16px; position: relative; overflow: hidden; transition: border-color 0.2s, transform 0.2s; }
   .kpi-card:hover { border-color: var(--accent); transform: translateY(-2px); }
   .kpi-card::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--accent), var(--accent2)); opacity: 0; transition: opacity 0.2s; }
   .kpi-card:hover::after { opacity: 1; }
-  .kpi-label { font-size: 11px; font-family: var(--mono); color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 10px; }
-  .kpi-value { font-size: 28px; font-weight: 700; letter-spacing: -0.5px; line-height: 1; font-family: var(--jp); }
+  .kpi-label { font-size: 11px; font-family: var(--mono); color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; }
+  .kpi-value { font-size: 24px; font-weight: 700; letter-spacing: -0.5px; line-height: 1; font-family: var(--jp); }
   .kpi-value.loading { color: var(--border); }
-  .kpi-sub { font-size: 12px; color: var(--muted); font-family: var(--mono); margin-top: 6px; }
-  .kpi-badge { display: inline-flex; align-items: center; font-size: 11px; font-family: var(--mono); padding: 2px 8px; border-radius: 20px; margin-top: 8px; }
+  .kpi-badge { display: inline-flex; align-items: center; font-size: 10px; font-family: var(--mono); padding: 2px 6px; border-radius: 20px; margin-top: 8px; white-space: nowrap; }
   .badge-blue { background: rgba(79,110,247,0.15); color: var(--accent); }
   .badge-purple { background: rgba(167,139,250,0.15); color: var(--accent2); }
   .badge-green { background: rgba(52,211,153,0.15); color: var(--green); }
@@ -66,16 +65,18 @@
   .chart-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 24px; }
   .chart-title { font-size: 13px; font-weight: 600; margin-bottom: 4px; }
   .chart-sub { font-size: 11px; color: var(--muted); font-family: var(--mono); margin-bottom: 20px; }
-  .table-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; margin-bottom: 32px; }
+  .table-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; overflow-x: auto; margin-bottom: 32px; }
   .table-header { padding: 20px 24px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
   .table-title { font-size: 14px; font-weight: 600; }
   .table-count { font-size: 11px; font-family: var(--mono); color: var(--muted); }
-  table { width: 100%; border-collapse: collapse; }
-  th { padding: 12px 24px; text-align: left; font-size: 11px; font-family: var(--mono); color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; background: var(--surface2); font-weight: 400; }
-  td { padding: 14px 24px; font-size: 13px; border-top: 1px solid var(--border); font-family: var(--jp); }
+  table { width: 100%; border-collapse: collapse; min-width: 1000px; }
+  th { padding: 12px 16px; text-align: right; font-size: 11px; font-family: var(--mono); color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; background: var(--surface2); font-weight: 400; }
+  th:first-child { text-align: left; }
+  td { padding: 14px 16px; font-size: 13px; border-top: 1px solid var(--border); font-family: var(--jp); text-align: right; }
+  td:first-child { text-align: left; }
   tr:hover td { background: var(--surface2); }
   .td-date { color: var(--muted); font-family: var(--mono); }
-  .td-spend { color: var(--text); font-weight: 500; }
+  .td-cost { color: var(--text); font-weight: 500; }
   .td-num { color: var(--text); }
   .td-calc { color: var(--accent2); }
   .td-na { color: var(--muted); font-family: var(--mono); }
@@ -83,12 +84,6 @@
   .empty-icon { font-size: 40px; margin-bottom: 16px; }
   .empty-title { font-size: 16px; font-weight: 600; color: var(--text); margin-bottom: 8px; }
   .empty-desc { font-size: 13px; line-height: 1.6; max-width: 400px; margin: 0 auto; }
-  .instructions { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 24px; margin-bottom: 32px; }
-  .inst-title { font-size: 13px; font-weight: 600; margin-bottom: 16px; color: var(--accent); font-family: var(--mono); }
-  .inst-step { display: flex; gap: 12px; margin-bottom: 12px; font-size: 13px; line-height: 1.6; }
-  .inst-num { width: 22px; height: 22px; min-width: 22px; border-radius: 50%; background: rgba(79,110,247,0.2); color: var(--accent); font-family: var(--mono); font-size: 11px; display: flex; align-items: center; justify-content: center; }
-  code { background: var(--surface2); padding: 2px 6px; border-radius: 4px; font-family: var(--mono); font-size: 12px; color: var(--accent2); }
-  footer { text-align: center; font-size: 11px; font-family: var(--mono); color: var(--muted); padding-top: 16px; border-top: 1px solid var(--border); }
 </style>
 </head>
 <body>
@@ -113,30 +108,25 @@
     <span id="statusText">スプレッドシートのURLを入力してデータを読み込んでください</span>
   </div>
 
-  <div class="instructions" id="instructions">
-    <div class="inst-title">// セットアップ手順</div>
-    <div class="inst-step"><div class="inst-num">1</div><div>Googleスプレッドシートを開いて「ファイル」→「共有」→「ウェブに公開」をクリック</div></div>
-    <div class="inst-step"><div class="inst-num">2</div><div>「カンマ区切りの値（.csv）」を選択して「公開」→ URLをコピー</div></div>
-    <div class="inst-step"><div class="inst-num">3</div><div>上の入力欄にURLを貼り付けて「読み込む」をクリック</div></div>
-    <div class="inst-step"><div class="inst-num">4</div><div>列順は <code>date</code> <code>spend</code> <code>impressions</code> <code>clicks</code>（購入数は後で追加予定）</div></div>
-  </div>
-
   <div class="kpi-grid">
-    <div class="kpi-card"><div class="kpi-label">消化金額</div><div class="kpi-value loading" id="kpi-spend">--</div><div class="kpi-sub">JPY（前日）</div></div>
-    <div class="kpi-card"><div class="kpi-label">インプレッション</div><div class="kpi-value loading" id="kpi-imp">--</div><div class="kpi-sub">回表示</div></div>
-    <div class="kpi-card"><div class="kpi-label">クリック数</div><div class="kpi-value loading" id="kpi-clicks">--</div><div class="kpi-sub">リンククリック</div></div>
-    <div class="kpi-card"><div class="kpi-label">購入数</div><div class="kpi-value loading" id="kpi-purchase">--</div><div class="kpi-badge badge-muted">別DB連携予定</div></div>
-    <div class="kpi-card"><div class="kpi-label">CTR</div><div class="kpi-value loading" id="kpi-ctr">--</div><div class="kpi-badge badge-blue">クリック ÷ IMP</div></div>
-    <div class="kpi-card"><div class="kpi-label">CPC</div><div class="kpi-value loading" id="kpi-cpc">--</div><div class="kpi-badge badge-purple">JPY / クリック</div></div>
-    <div class="kpi-card"><div class="kpi-label">CPM</div><div class="kpi-value loading" id="kpi-cpm">--</div><div class="kpi-badge badge-green">JPY / 1,000imp</div></div>
-    <div class="kpi-card"><div class="kpi-label">CPA</div><div class="kpi-value loading" id="kpi-cpa">--</div><div class="kpi-badge badge-muted">別DB連携予定</div></div>
+    <div class="kpi-card"><div class="kpi-label">COST</div><div class="kpi-value loading" id="kpi-cost">--</div><div class="kpi-badge badge-muted">SS連携</div></div>
+    <div class="kpi-card"><div class="kpi-label">IMP</div><div class="kpi-value loading" id="kpi-imp">--</div><div class="kpi-badge badge-muted">SS連携</div></div>
+    <div class="kpi-card"><div class="kpi-label">CLICK</div><div class="kpi-value loading" id="kpi-click">--</div><div class="kpi-badge badge-muted">SS連携</div></div>
+    <div class="kpi-card"><div class="kpi-label">CTR</div><div class="kpi-value loading" id="kpi-ctr">--</div><div class="kpi-badge badge-blue">CLICK ÷ IMP</div></div>
+    <div class="kpi-card"><div class="kpi-label">CPC</div><div class="kpi-value loading" id="kpi-cpc">--</div><div class="kpi-badge badge-purple">COST ÷ CLICK</div></div>
+    <div class="kpi-card"><div class="kpi-label">CPM</div><div class="kpi-value loading" id="kpi-cpm">--</div><div class="kpi-badge badge-green">COST ÷ 1,000imp</div></div>
+    <div class="kpi-card"><div class="kpi-label">mCV</div><div class="kpi-value loading" id="kpi-mcv">--</div><div class="kpi-badge badge-muted">別DB連携予定</div></div>
+    <div class="kpi-card"><div class="kpi-label">mCPA</div><div class="kpi-value loading" id="kpi-mcpa">--</div><div class="kpi-badge badge-muted">COST ÷ mCV</div></div>
+    <div class="kpi-card"><div class="kpi-label">CV</div><div class="kpi-value loading" id="kpi-cv">--</div><div class="kpi-badge badge-muted">別DB連携予定</div></div>
+    <div class="kpi-card"><div class="kpi-label">CPA</div><div class="kpi-value loading" id="kpi-cpa">--</div><div class="kpi-badge badge-muted">COST ÷ CV</div></div>
+    <div class="kpi-card"><div class="kpi-label">LP CVR</div><div class="kpi-value loading" id="kpi-lpcvr">--</div><div class="kpi-badge badge-muted">CV ÷ mCV</div></div>
   </div>
 
   <div class="charts-grid">
     <div class="chart-card">
-      <div class="chart-title">消化金額の推移</div>
-      <div class="chart-sub">// daily spend trend</div>
-      <canvas id="spendChart" height="200"></canvas>
+      <div class="chart-title">COST 推移</div>
+      <div class="chart-sub">// daily cost trend</div>
+      <canvas id="costChart" height="200"></canvas>
     </div>
     <div class="chart-card">
       <div class="chart-title">CTR / CPC トレンド</div>
@@ -159,11 +149,11 @@
     </div>
   </div>
 
-  <footer>Meta Ads Dashboard — powered by Claude × Make × Google Sheets</footer>
+  <footer style="text-align: center; font-size: 11px; font-family: var(--mono); color: var(--muted); padding-top: 16px; border-top: 1px solid var(--border);">Meta Ads Dashboard — powered by Claude × Make × Google Sheets</footer>
 </div>
 
 <script>
-let spendChart = null, perfChart = null;
+let costChart = null, perfChart = null;
 
 function fmt(n, d=0) {
   if (n === null || n === undefined || isNaN(n)) return '--';
@@ -184,44 +174,56 @@ function parseCSV(text) {
     if (c.length < 4) continue;
     const date = c[0].trim();
     if (!date) continue;
-    const spend = parseFloat(c[1]) || 0;
+    const cost = parseFloat(c[1]) || 0;
     const imp = parseFloat(c[2]) || 0;
-    const clicks = parseFloat(c[3]) || 0;
-    const purchase = (c[4] !== undefined && c[4].trim() !== '') ? (parseFloat(c[4]) || 0) : null;
-    rows.push({ date, spend, imp, clicks, purchase });
+    const click = parseFloat(c[3]) || 0;
+    // 今後別DBから連携される mCV(E列), CV(F列) の枠組みを準備
+    const mcv = (c[4] !== undefined && c[4].trim() !== '') ? (parseFloat(c[4]) || 0) : null;
+    const cv = (c[5] !== undefined && c[5].trim() !== '') ? (parseFloat(c[5]) || 0) : null;
+    rows.push({ date, cost, imp, click, mcv, cv });
   }
   return rows;
 }
 
 function renderDashboard(rows) {
   if (!rows.length) return;
-  document.getElementById('instructions').style.display = 'none';
 
   const r = rows[rows.length - 1];
-  const ctr = r.imp > 0 ? r.clicks / r.imp * 100 : 0;
-  const cpc = r.clicks > 0 ? r.spend / r.clicks : 0;
-  const cpm = r.imp > 0 ? r.spend / r.imp * 1000 : 0;
-  const cpa = (r.purchase !== null && r.purchase > 0) ? r.spend / r.purchase : null;
+  
+  // 各種KPIの計算式
+  const ctr = r.imp > 0 ? (r.click / r.imp) * 100 : 0;
+  const cpc = r.click > 0 ? r.cost / r.click : 0;
+  const cpm = r.imp > 0 ? (r.cost / r.imp) * 1000 : 0;
+  const mcpa = (r.mcv !== null && r.mcv > 0) ? r.cost / r.mcv : null;
+  const cpa = (r.cv !== null && r.cv > 0) ? r.cost / r.cv : null;
+  const lpcvr = (r.mcv !== null && r.mcv > 0 && r.cv !== null) ? (r.cv / r.mcv) * 100 : null;
 
-  const set = (id, val) => { document.getElementById(id).textContent = val; document.getElementById(id).className = 'kpi-value'; };
-  set('kpi-spend', '¥' + fmt(r.spend));
+  const set = (id, val) => { 
+    document.getElementById(id).textContent = val; 
+    document.getElementById(id).className = 'kpi-value'; 
+  };
+  
+  set('kpi-cost', '¥' + fmt(r.cost));
   set('kpi-imp', fmt(r.imp));
-  set('kpi-clicks', fmt(r.clicks));
-  set('kpi-purchase', r.purchase !== null ? fmt(r.purchase) : '--');
+  set('kpi-click', fmt(r.click));
   set('kpi-ctr', fmt(ctr, 2) + '%');
   set('kpi-cpc', '¥' + fmt(cpc));
   set('kpi-cpm', '¥' + fmt(cpm));
+  set('kpi-mcv', r.mcv !== null ? fmt(r.mcv) : '--');
+  set('kpi-mcpa', mcpa !== null ? '¥' + fmt(mcpa) : '--');
+  set('kpi-cv', r.cv !== null ? fmt(r.cv) : '--');
   set('kpi-cpa', cpa !== null ? '¥' + fmt(cpa) : '--');
+  set('kpi-lpcvr', lpcvr !== null ? fmt(lpcvr, 2) + '%' : '--');
 
   document.getElementById('tableCount').textContent = rows.length + ' 件';
 
   const labels = rows.map(x => x.date);
   const cfg = { responsive: true };
 
-  if (spendChart) spendChart.destroy();
-  spendChart = new Chart(document.getElementById('spendChart'), {
+  if (costChart) costChart.destroy();
+  costChart = new Chart(document.getElementById('costChart'), {
     type: 'bar',
-    data: { labels, datasets: [{ label: '消化金額', data: rows.map(x => x.spend), backgroundColor: 'rgba(79,110,247,0.6)', borderColor: '#4f6ef7', borderWidth: 1, borderRadius: 4 }] },
+    data: { labels, datasets: [{ label: 'COST', data: rows.map(x => x.cost), backgroundColor: 'rgba(79,110,247,0.6)', borderColor: '#4f6ef7', borderWidth: 1, borderRadius: 4 }] },
     options: { ...cfg, plugins: { legend: { display: false } }, scales: { x: { ticks: { color: '#6b6b8a', font: { family: 'DM Mono', size: 10 } }, grid: { color: '#2a2a3a' } }, y: { ticks: { color: '#6b6b8a', font: { family: 'DM Mono', size: 10 } }, grid: { color: '#2a2a3a' } } } }
   });
 
@@ -231,20 +233,36 @@ function renderDashboard(rows) {
     data: {
       labels,
       datasets: [
-        { label: 'CTR (%)', data: rows.map(x => x.imp > 0 ? x.clicks / x.imp * 100 : 0), borderColor: '#a78bfa', backgroundColor: 'rgba(167,139,250,0.1)', tension: 0.4, yAxisID: 'y', pointRadius: 3 },
-        { label: 'CPC (¥)', data: rows.map(x => x.clicks > 0 ? x.spend / x.clicks : 0), borderColor: '#fbbf24', backgroundColor: 'rgba(251,191,36,0.1)', tension: 0.4, yAxisID: 'y1', pointRadius: 3 }
+        { label: 'CTR (%)', data: rows.map(x => x.imp > 0 ? x.click / x.imp * 100 : 0), borderColor: '#a78bfa', backgroundColor: 'rgba(167,139,250,0.1)', tension: 0.4, yAxisID: 'y', pointRadius: 3 },
+        { label: 'CPC (¥)', data: rows.map(x => x.click > 0 ? x.cost / x.click : 0), borderColor: '#fbbf24', backgroundColor: 'rgba(251,191,36,0.1)', tension: 0.4, yAxisID: 'y1', pointRadius: 3 }
       ]
     },
     options: { ...cfg, plugins: { legend: { labels: { color: '#6b6b8a', font: { family: 'DM Mono', size: 10 } } } }, scales: { x: { ticks: { color: '#6b6b8a', font: { family: 'DM Mono', size: 10 } }, grid: { color: '#2a2a3a' } }, y: { ticks: { color: '#a78bfa', font: { family: 'DM Mono', size: 10 } }, position: 'left', grid: { color: '#2a2a3a' } }, y1: { ticks: { color: '#fbbf24', font: { family: 'DM Mono', size: 10 } }, position: 'right', grid: { display: false } } } }
   });
 
-  let html = '<table><thead><tr><th>日付</th><th>消化金額</th><th>IMP</th><th>クリック</th><th>購入数</th><th>CTR</th><th>CPC</th><th>CPM</th><th>CPA</th></tr></thead><tbody>';
+  let html = '<table><thead><tr><th>日付</th><th>COST</th><th>IMP</th><th>CLICK</th><th>CTR</th><th>CPC</th><th>CPM</th><th>mCV</th><th>mCPA</th><th>CV</th><th>CPA</th><th>LP CVR</th></tr></thead><tbody>';
   [...rows].reverse().forEach(x => {
-    const rctr = x.imp > 0 ? (x.clicks / x.imp * 100).toFixed(2) + '%' : '--';
-    const rcpc = x.clicks > 0 ? '¥' + fmt(x.spend / x.clicks) : '--';
-    const rcpm = x.imp > 0 ? '¥' + fmt(x.spend / x.imp * 1000) : '--';
-    const rcpa = (x.purchase !== null && x.purchase > 0) ? '¥' + fmt(x.spend / x.purchase) : '--';
-    html += `<tr><td class="td-date">${x.date}</td><td class="td-spend">¥${fmt(x.spend)}</td><td class="td-num">${fmt(x.imp)}</td><td class="td-num">${fmt(x.clicks)}</td><td class="${x.purchase !== null ? 'td-num' : 'td-na'}">${x.purchase !== null ? fmt(x.purchase) : '--'}</td><td class="td-calc">${rctr}</td><td class="td-calc">${rcpc}</td><td class="td-calc">${rcpm}</td><td class="${(x.purchase !== null && x.purchase > 0) ? 'td-calc' : 'td-na'}">${rcpa}</td></tr>`;
+    const rctr = x.imp > 0 ? (x.click / x.imp * 100).toFixed(2) + '%' : '--';
+    const rcpc = x.click > 0 ? '¥' + fmt(x.cost / x.click) : '--';
+    const rcpm = x.imp > 0 ? '¥' + fmt(x.cost / x.imp * 1000) : '--';
+    const rmcpa = (x.mcv !== null && x.mcv > 0) ? '¥' + fmt(x.cost / x.mcv) : '--';
+    const rcpa = (x.cv !== null && x.cv > 0) ? '¥' + fmt(x.cost / x.cv) : '--';
+    const rlpcvr = (x.mcv !== null && x.mcv > 0 && x.cv !== null) ? (x.cv / x.mcv * 100).toFixed(2) + '%' : '--';
+    
+    html += `<tr>
+      <td class="td-date" style="text-align: left;">${x.date}</td>
+      <td class="td-cost">¥${fmt(x.cost)}</td>
+      <td class="td-num">${fmt(x.imp)}</td>
+      <td class="td-num">${fmt(x.click)}</td>
+      <td class="td-calc">${rctr}</td>
+      <td class="td-calc">${rcpc}</td>
+      <td class="td-calc">${rcpm}</td>
+      <td class="${x.mcv !== null ? 'td-num' : 'td-na'}">${x.mcv !== null ? fmt(x.mcv) : '--'}</td>
+      <td class="${x.mcv !== null && x.mcv > 0 ? 'td-calc' : 'td-na'}">${rmcpa}</td>
+      <td class="${x.cv !== null ? 'td-num' : 'td-na'}">${x.cv !== null ? fmt(x.cv) : '--'}</td>
+      <td class="${x.cv !== null && x.cv > 0 ? 'td-calc' : 'td-na'}">${rcpa}</td>
+      <td class="${x.mcv !== null && x.cv !== null ? 'td-calc' : 'td-na'}">${rlpcvr}</td>
+    </tr>`;
   });
   html += '</tbody></table>';
   document.getElementById('tableWrap').innerHTML = html;
@@ -273,10 +291,11 @@ function loadDemo() {
     const d = new Date(today);
     d.setDate(d.getDate() - i);
     const date = d.toISOString().split('T')[0];
-    const spend = Math.round(80000 + Math.random() * 40000);
+    const cost = Math.round(80000 + Math.random() * 40000);
     const imp = Math.round(200000 + Math.random() * 100000);
-    const clicks = Math.round(imp * (0.008 + Math.random() * 0.006));
-    rows.push({ date, spend, imp, clicks, purchase: null });
+    const click = Math.round(imp * (0.008 + Math.random() * 0.006));
+    // mCVとCVは現時点では意図的にnullに設定してグレーアウトを確認
+    rows.push({ date, cost, imp, click, mcv: null, cv: null });
   }
   document.getElementById('sheetUrl').value = '（デモデータ）';
   renderDashboard(rows);
