@@ -148,9 +148,8 @@
 </div>
 
 <script>
-// 🌟🌟🌟 ここにスプレッドシートのCSV URLを貼り付けてください 🌟🌟🌟
-const SHEET_CSV_URL = "ここにURLをペースト";
-
+// 🌟 いただいたURLをセット済みです！
+const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQq56pgVj9jabfll9ZZsy4bV4Ouv1uXI4jPpULzGSZ3y60F99sYhgjch5MdDRXi2I35PhAsL5KlYnrm/pub?gid=0&single=true&output=csv";
 
 let costChart = null, perfChart = null;
 
@@ -164,20 +163,48 @@ function setStatus(live, text) {
   document.getElementById('statusText').textContent = text;
 }
 
+// ⚠️ここが進化！カンマやダブルクォーテーションが入っていても完璧に読み取る魔法の関数
 function parseCSV(text) {
   const lines = text.trim().split('\n');
   if (lines.length < 2) return [];
   const rows = [];
+  
+  // 数字以外の文字（¥やカンマ、"）を取り除いて純粋な数値にする関数
+  const cleanNum = (str) => {
+    if (!str) return 0;
+    return parseFloat(str.replace(/[^0-9.-]/g, '')) || 0;
+  };
+
   for (let i = 1; i < lines.length; i++) {
-    const c = lines[i].split(',');
+    // CSV特有の「カンマ区切り問題」を解決する高度な分割処理
+    const rowStr = lines[i];
+    const c = [];
+    let inQuotes = false;
+    let val = "";
+    for (let j = 0; j < rowStr.length; j++) {
+      const char = rowStr[j];
+      if (char === '"') {
+        inQuotes = !inQuotes;
+      } else if (char === ',' && !inQuotes) {
+        c.push(val);
+        val = "";
+      } else {
+        val += char;
+      }
+    }
+    c.push(val); // 最後の列を追加
+
     if (c.length < 4) continue;
-    const date = c[0].trim();
+    const date = c[0].replace(/"/g, '').trim(); // 日付の記号も消す
     if (!date) continue;
-    const cost = parseFloat(c[1]) || 0;
-    const imp = parseFloat(c[2]) || 0;
-    const click = parseFloat(c[3]) || 0;
-    const mcv = (c[4] !== undefined && c[4].trim() !== '') ? (parseFloat(c[4]) || 0) : null;
-    const cv = (c[5] !== undefined && c[5].trim() !== '') ? (parseFloat(c[5]) || 0) : null;
+    
+    // データを取り出して数値化
+    const cost = cleanNum(c[1]);
+    const imp = cleanNum(c[2]);
+    const click = cleanNum(c[3]);
+    const mcv = (c[4] !== undefined && c[4].trim() !== '') ? cleanNum(c[4]) : null;
+    const cv = (c[5] !== undefined && c[5].trim() !== '') ? cleanNum(c[5]) : null;
+    
     rows.push({ date, cost, imp, click, mcv, cv });
   }
   return rows;
@@ -274,22 +301,20 @@ async function loadData() {
 
   setStatus(false, '最新データを読み込み中...');
   try {
-    // 常に最新データを取得するためのキャッシュ回避パラメーター
     const cacheBuster = '?t=' + new Date().getTime();
     const res = await fetch(SHEET_CSV_URL + cacheBuster);
     
     if (!res.ok) throw new Error('スプレッドシートの取得に失敗しました');
-    const rows = parseCSV(await res.text());
-    if (!rows.length) throw new Error('データが見つかりません');
+    const text = await res.text();
+    const rows = parseCSV(text);
+    if (!rows.length) throw new Error('データが見つかりません（または列の順番が違います）');
     renderDashboard(rows);
   } catch(e) {
     setStatus(false, 'エラー: ' + e.message);
   }
 }
 
-// 画面を開いた瞬間に自動でデータを読み込む
 window.addEventListener('DOMContentLoaded', loadData);
-
 </script>
 </body>
 </html>
